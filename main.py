@@ -10,20 +10,24 @@ pygame.init()
 clock = pygame.time.Clock()
 population = population.OtherPopulation(100)
 
-def quit_game():
+def event_handle():
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if config.button_rect.collidepoint(event.pos):  # Check if click is inside button
+                config.speed_index = (config.speed_index + 1) % len(config.button_speed_text)
+        
 
 def main():
     pipes_spawn_time = 10
     font = pygame.font.Font(size=30)
+    
 
     print("Generation 1")
     while True:
-        quit_game()
-
+    
         #draw background
         # config.window.fill((32, 32, 32)) 
         config.window.blit(constants.background_image, (0, 0))
@@ -43,6 +47,15 @@ def main():
         #draw ground
         config.ground.draw(config.window)   
         config.ground.update()
+
+        #draw change speed button
+        pygame.draw.rect(config.window, (0, 180, 220), config.button_rect, border_radius=8)
+        pygame.draw.rect(config.window, (180, 180, 180), config.button_rect, width=2, border_radius=8)
+        button_text = font.render(config.button_speed_text[config.speed_index], True, (32, 32, 32))
+        text_rect = button_text.get_rect(center=config.button_rect.center)
+        config.window.blit(button_text, text_rect)
+
+        event_handle()
 
         #show score and generation
         score_text = font.render('Score: ' + str(constants.score), True, pygame.color.Color(32, 32, 32))
@@ -69,7 +82,7 @@ def main():
             population.evolve()
             print(f"\nGeneration {population.generation}")
 
-        clock.tick(300)
+        clock.tick(config.speed[config.speed_index])
         pygame.display.flip()
 
 main()

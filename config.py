@@ -17,3 +17,8 @@ def generate_pipes():
     y_bottom = y_top + constants.pipe_top_image.get_height() + opening
     pipes.add(components.Pipe(x, y_top, constants.pipe_top_image, 't'))
     pipes.add(components.Pipe(x, y_bottom, constants.pipe_bottom_image, 'b'))
+
+button_speed_text = ["x1", "x2", "x5", "x10"]
+speed = [60, 120, 300, 600]
+speed_index = 0
+button_rect = pygame.Rect(constants.window_width - 50, constants.window_height - 50, 40, 40)
