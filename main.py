@@ -8,7 +8,7 @@ import constants
 
 pygame.init()
 clock = pygame.time.Clock()
-population = population.OtherPopulation(100)
+population = population.Population(100)
 
 def event_handle():
     for event in pygame.event.get():

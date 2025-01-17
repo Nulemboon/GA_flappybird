@@ -4,6 +4,7 @@ import config
 import model
 
 class Player(pygame.sprite.Sprite):
+    birds = 0
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         #for bird
@@ -22,6 +23,8 @@ class Player(pygame.sprite.Sprite):
         self.model = model.Model(self.inputs)
         self.model.generate()
         self.fitness = 0
+
+        Player.birds += 1
 
     #Functions in game
     def draw(self, window):
@@ -104,6 +107,7 @@ class Player(pygame.sprite.Sprite):
             self.lifespan += 1
         else:
             #bird died
+            Player.birds -= 1
             self.living = False
             self.flap = False
             self.velocity = 0
@@ -113,7 +117,7 @@ class Player(pygame.sprite.Sprite):
         if not self.flap and not self.sky_collision():
             self.flap = True
             self.velocity = -5
-        if self.velocity >= 2:
+        if self.velocity >= 0:
             self.flap = False
 
     @staticmethod
@@ -137,7 +141,9 @@ class Player(pygame.sprite.Sprite):
 
     def think(self):
         self.decision = self.model.feed_forward(self.position)
-        # print(self.decision)
+        if Player.birds == 1:
+            for i in range(len(self.model.edges)):
+                print(self.model.edges[i].weight)
         if self.decision > 0.6:
             self.bird_flap()
 

@@ -22,7 +22,7 @@ class Model:
 
             #output layer
             self.neurons.append(neuron.Neuron(self.inputs))
-            self.neurons[self.inputs].layer = 1
+            self.neurons[self.inputs].layer = 1;
 
             #constructing edges with random weights
             for i in range(0, self.inputs):
@@ -100,3 +100,10 @@ class Model:
                 gene = 1
             if gene < -1:
                 gene = -1
+
+class MultilayerPerceptronModel(Model):
+    def __init__(self, inputs, layers=3, hidden_layer_size=[3], clone=False):
+        
+        self.layers = layers
+        self.hidden_layer_size = hidden_layer_size
+

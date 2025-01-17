@@ -4,6 +4,7 @@ import math
 import random
 import species
 import operator
+import constants
 
 class Population:
     def __init__(self, population_size):
@@ -66,6 +67,12 @@ class Population:
         self.generation += 1
 
     def evolve(self):
+        if constants.score == 0: 
+            self.players = []
+            for i in range(self.size):
+                self.players.append(player.Player())
+            self.generation += 1
+            return
         #selection
         self.selection()
 
